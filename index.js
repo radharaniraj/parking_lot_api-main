@@ -79,7 +79,10 @@ app.get('/leave', function (req, res){
 		'slot_number': i,
 		'car_number': car_to_leave_number
 	}
-	colour_to_regn_and_slot_numbers[car_to_leave_colour].remove(obj)
+	colour_to_regn_and_slot_numbers[car_to_leave_colour] = colour_to_regn_and_slot_numbers[car_to_leave_colour].filter(function(value){
+		return value !== obj
+	})
+	empty_slots = empty_slots - 1
 	regn_number_to_slot_number[car_to_leave_number] = -1
 	cars[i-1] = {}
 	res.send(`Slot ${position_to_leave} is free`)
@@ -121,8 +124,8 @@ app.get('/registration_number_of_cars_with_colour', function (req, res){
 
 app.get('/slot_number_for_regn_number', function (req, res){
 	number = req.query.number
-	ans="Slot Number . <br>"
-	ans+=regn_number_to_slot_number[number]+"<br>";
+	ans="Slot Number is "
+	ans+=regn_number_to_slot_number[number];
 	res.send(ans);
 })
 
